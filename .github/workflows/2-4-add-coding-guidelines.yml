@@ -65,15 +65,22 @@ jobs:
         with:
           template-file: exercise-toolkit/markdown-templates/step-feedback/step-results-table.md
           template-vars: |
-            step_number: 2-4
-            passed: ${{ steps.check_coding_guidelines.outcome == 'success' && steps.check_copilot_instructions.outcome == 'success' }}
-            results_table:
-              - description: "The file 'coding-guidelines.md' should exist under `docs/` folder and describe the coding style and quality principles."
-                passed: ${{ steps.check_coding_guidelines.outcome == 'success' }}
-                error_message: "The file 'docs/coding-guidelines.md' was not found or does not describe all the required coding guidelines."
-              - description: "The file '.github/copilot-instructions.md' should reference 'coding-guidelines.md'"
-                passed: ${{ steps.check_copilot_instructions.outcome == 'success' }}
-                error_message: "The file '.github/copilot-instructions.md' does not reference 'coding-guidelines.md'."
+            {
+              "step_number": "2-4",
+              "passed": "${{ steps.check_coding_guidelines.outcome == 'success' && steps.check_copilot_instructions.outcome == 'success' }}",
+              "results_table": [
+                {
+                  "description": "The file 'coding-guidelines.md' should exist under `docs/` folder and describe the coding style and quality principles.",
+                  "passed": "${{ steps.check_coding_guidelines.outcome == 'success' }}",
+                  "error_message": "The file 'docs/coding-guidelines.md' was not found or does not describe all the required coding guidelines."
+                },
+                {
+                  "description": "The file '.github/copilot-instructions.md' should reference 'coding-guidelines.md'",
+                  "passed": "${{ steps.check_copilot_instructions.outcome == 'success' }}",
+                  "error_message": "The file '.github/copilot-instructions.md' does not reference 'coding-guidelines.md'."
+                }
+              ]
+            }
 
       - name: Create comment - step results
         run: |
@@ -96,7 +103,9 @@ jobs:
         with:
           template-file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
           template-vars: |
-            next_step_number: 2-5
+            {
+              "next_step_number": "2-5"
+            }
 
       - name: Update comment - step finished
         run: |

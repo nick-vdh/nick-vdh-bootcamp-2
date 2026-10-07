@@ -65,15 +65,22 @@ jobs:
         with:
           template-file: exercise-toolkit/markdown-templates/step-feedback/step-results-table.md
           template-vars: |
-            step_number: 2-3
-            passed: ${{ steps.check_testing_guidelines.outcome == 'success' && steps.check_copilot_instructions.outcome == 'success' }}
-            results_table:
-              - description: "The file 'testing-guidelines.md' should exist under `docs/` folder and describe the testing requirements."
-                passed: ${{ steps.check_testing_guidelines.outcome == 'success' }}
-                error_message: "The file 'docs/testing-guidelines.md' was not found or does not describe all the required testing guidelines."
-              - description: "The file '.github/copilot-instructions.md' should reference 'testing-guidelines.md'"
-                passed: ${{ steps.check_copilot_instructions.outcome == 'success' }}
-                error_message: "The file '.github/copilot-instructions.md' does not reference 'testing-guidelines.md'."
+            {
+              "step_number": "2-3",
+              "passed": "${{ steps.check_testing_guidelines.outcome == 'success' && steps.check_copilot_instructions.outcome == 'success' }}",
+              "results_table": [
+                {
+                  "description": "The file 'testing-guidelines.md' should exist under `docs/` folder and describe the testing requirements.",
+                  "passed": "${{ steps.check_testing_guidelines.outcome == 'success' }}",
+                  "error_message": "The file 'docs/testing-guidelines.md' was not found or does not describe all the required testing guidelines."
+                },
+                {
+                  "description": "The file '.github/copilot-instructions.md' should reference 'testing-guidelines.md'",
+                  "passed": "${{ steps.check_copilot_instructions.outcome == 'success' }}",
+                  "error_message": "The file '.github/copilot-instructions.md' does not reference 'testing-guidelines.md'."
+                }
+              ]
+            }
 
       - name: Create comment - step results
         run: |
@@ -96,7 +103,9 @@ jobs:
         with:
           template-file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
           template-vars: |
-            next_step_number: 2-4
+            {
+              "next_step_number": "2-4"
+            }
 
       - name: Update comment - step finished
         run: |
