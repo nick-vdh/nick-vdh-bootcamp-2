@@ -1,15 +1,32 @@
+:root {
+  --green-900: #173f2a;
+  --green-800: #205536;
+  --green-700: #287044;
+  --green-100: #e6f0e8;
+  --green-050: #f3f7f3;
+  --ink: #1c2921;
+  --muted: #53635a;
+  --border: #c6d2c9;
+  --danger: #9d302e;
+}
+
+body {
+  margin: 0;
+  background: var(--green-050);
+  color: var(--ink);
+  font-family: Arial, sans-serif;
+}
+
 .App {
-  text-align: center;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
 
 .App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
-  border-radius: 8px;
+  padding: 24px 28px;
+  background: var(--green-900);
+  color: #fff;
   margin-bottom: 20px;
 }
 
@@ -18,77 +35,192 @@
   font-size: 1.8rem;
 }
 
+.App-header p {
+  margin: 8px 0 0;
+  color: #e1eee4;
+}
+
 main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 section {
-  background-color: #f5f5f5;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border: 1px solid var(--border);
 }
 
-.add-item-section form {
+h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.task-form,
+.edit-form {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: end;
+  gap: 12px;
+  margin-top: 16px;
 }
 
-input {
+.form-field {
+  display: flex;
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+input,
+select {
+  box-sizing: border-box;
+  min-height: 40px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #718277;
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
 }
 
 button {
-  padding: 8px 16px;
-  background-color: #61dafb;
-  color: #282c34;
-  border: none;
-  border-radius: 4px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--green-800);
+  border-radius: 0;
+  background: var(--green-800);
+  color: #fff;
   cursor: pointer;
-  font-weight: bold;
+  font: inherit;
+  font-weight: 700;
 }
 
 button:hover {
-  background-color: #21a1c9;
+  background: var(--green-900);
 }
 
-ul {
-  list-style-type: none;
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #d08b16;
+  outline-offset: 2px;
+}
+
+.list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-control select {
+  min-width: 170px;
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
   padding: 0;
 }
 
-li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
+.task-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
 }
 
-li:last-child {
-  border-bottom: none;
+.task-row:last-child {
+  border-bottom: 0;
+}
+
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.task-details span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.task-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.secondary-btn {
+  background: #fff;
+  color: var(--green-900);
+}
+
+.secondary-btn:hover {
+  background: var(--green-100);
 }
 
 .delete-btn {
-  background-color: #f44336;
-  color: white;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-  margin-left: 10px;
+  border-color: var(--danger);
+  background: var(--danger);
 }
 
 .delete-btn:hover {
-  background-color: #d32f2f;
+  background: #762320;
+}
+
+.edit-form {
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .error {
-  color: #d32f2f;
-  font-weight: bold;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .App {
+    padding: 14px;
+  }
+
+  .task-form,
+  .edit-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .list-heading,
+  .task-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sort-control {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sort-control select {
+    width: 100%;
+  }
 }
