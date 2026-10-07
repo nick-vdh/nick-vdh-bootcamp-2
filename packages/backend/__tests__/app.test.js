@@ -16,7 +16,8 @@ const createItem = async (name = 'Temp Item to Delete') => {
     .set('Accept', 'application/json');
 
   expect(response.status).toBe(201);
-  expect(response.body).toHaveProperty('id');
+  expect(Number.isInteger(response.body.id)).toBe(true);
+  expect(response.body.id).toBeGreaterThan(0);
   return response.body;
 };
 
@@ -27,13 +28,15 @@ describe('API Endpoints', () => {
 
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body.length).toBeGreaterThan(0);
-
-      // Check if items have the expected structure
-      const item = response.body[0];
-      expect(item).toHaveProperty('id');
-      expect(item).toHaveProperty('name');
-      expect(item).toHaveProperty('created_at');
+      expect(response.body).toEqual(expect.arrayContaining([
+        expect.objectContaining({ name: 'Item 1', due_date: null }),
+        expect.objectContaining({ name: 'Item 2', due_date: null }),
+        expect.objectContaining({ name: 'Item 3', due_date: null }),
+      ]));
+      response.body.forEach((item) => {
+        expect(Number.isInteger(item.id)).toBe(true);
+        expect(Date.parse(item.created_at)).not.toBeNaN();
+      });
     });
   });
 
@@ -46,9 +49,20 @@ describe('API Endpoints', () => {
         .set('Accept', 'application/json');
 
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('id');
-      expect(response.body.name).toBe(newItem.name);
-      expect(response.body).toHaveProperty('created_at');
+      expect(response.body).toMatchObject({
+        name: newItem.name,
+        due_date: null,
+      });
+      expect(Number.isInteger(response.body.id)).toBe(true);
+      expect(response.body.id).toBeGreaterThan(0);
+      expect(Date.parse(response.body.created_at)).not.toBeNaN();
+
+      const listResponse = await request(app).get('/api/items');
+      expect(listResponse.body).toContainEqual(expect.objectContaining({
+        id: response.body.id,
+        name: newItem.name,
+        due_date: null,
+      }));
     });
 
     it('should return 400 if name is missing', async () => {
@@ -81,6 +95,9 @@ describe('API Endpoints', () => {
       const deleteResponse = await request(app).delete(`/api/items/${item.id}`);
       expect(deleteResponse.status).toBe(200);
       expect(deleteResponse.body).toEqual({ message: 'Item deleted successfully', id: item.id });
+
+      const listResponse = await request(app).get('/api/items');
+      expect(listResponse.body).not.toContainEqual(expect.objectContaining({ id: item.id }));
 
       const deleteAgain = await request(app).delete(`/api/items/${item.id}`);
       expect(deleteAgain.status).toBe(404);
