@@ -96,7 +96,7 @@ button {
   min-height: 40px;
   padding: 8px 14px;
   border: 1px solid var(--green-800);
-  border-radius: 0;
+  border-radius: 8px;
   background: var(--green-800);
   color: #fff;
   cursor: pointer;
